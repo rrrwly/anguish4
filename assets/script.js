@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
     });
 
     $(window).focus(function () {
-        document.title = "anguish";
+        document.title = "apathy";
     });
 
     $('.enter>img').on('click', function () {
