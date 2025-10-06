@@ -63,30 +63,42 @@
       display: none;
     }
 
-    /* volume slider */
-    .volume-control {
+    /* bottom-right music controls */
+    .music-controls {
       position: fixed;
       bottom: 15px;
       right: 20px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      opacity: 0.8;
-      transition: opacity 0.3s;
+      gap: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+      background: rgba(0,0,0,0.05);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.2);
     }
 
-    .volume-control:hover {
-      opacity: 1;
+    .music-controls.show {
+      opacity: 0.9;
+      visibility: visible;
     }
 
     .volume-label {
-      font-size: 12px;
+      font-size: 14px;
     }
 
-    input[type="range"] {
+    #volume-slider {
       width: 100px;
       cursor: pointer;
       accent-color: black;
+    }
+
+    #song-name {
+      font-size: 12px;
+      opacity: 0.8;
+      transition: opacity 0.5s;
     }
   </style>
 </head>
@@ -102,15 +114,16 @@
 
   <!-- background music -->
   <audio id="bg-music" loop muted>
-    <source src="assets/song.mp3" type="audio/mpeg">
+    <source src="YOUR-MUSIC-FILE.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <!-- play/pause button -->
   <button id="music-btn" onclick="toggleMusic()">click me</button>
 
-  <!-- volume control -->
-  <div class="volume-control">
+  <!-- bottom-right volume + song display -->
+  <div id="music-controls" class="music-controls">
+    <span id="song-name">🎵 Now Playing: SD - Don't Believe Me</span>
     <span class="volume-label">🔊</span>
     <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="1">
   </div>
@@ -119,26 +132,29 @@
     const music = document.getElementById('bg-music');
     const button = document.getElementById('music-btn');
     const slider = document.getElementById('volume-slider');
+    const songName = document.getElementById('song-name');
+    const controls = document.getElementById('music-controls');
+
+    const SONG_TITLE = "Crownfall - Instrumental";
 
     function toggleMusic() {
       if (music.paused) {
         music.muted = false;
         music.play();
         button.textContent = "pause";
+        songName.textContent = "🎵 Now Playing: " + SONG_TITLE;
+        controls.classList.add("show");
       } else {
         music.pause();
-        button.textContent = "click me";
+        button.textContent = "play";
+        controls.classList.remove("show");
       }
     }
 
-    // Adjust volume in real time
+    // Adjust volume live
     slider.addEventListener('input', () => {
       music.volume = slider.value;
     });
   </script>
 </body>
 </html>
-
-
-
-
