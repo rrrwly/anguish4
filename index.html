@@ -62,6 +62,32 @@
     audio {
       display: none;
     }
+
+    /* volume slider */
+    .volume-control {
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .volume-control:hover {
+      opacity: 1;
+    }
+
+    .volume-label {
+      font-size: 12px;
+    }
+
+    input[type="range"] {
+      width: 100px;
+      cursor: pointer;
+      accent-color: black;
+    }
   </style>
 </head>
 <body>
@@ -76,29 +102,39 @@
 
   <!-- background music -->
   <audio id="bg-music" loop muted>
-    <source src="assets/song.mp3" type="audio/mpeg">
+    <source src="YOUR-MUSIC-FILE.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <!-- play/pause button -->
   <button id="music-btn" onclick="toggleMusic()">Play Music</button>
 
+  <!-- volume control -->
+  <div class="volume-control">
+    <span class="volume-label">🔊</span>
+    <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="1">
+  </div>
+
   <script>
     const music = document.getElementById('bg-music');
     const button = document.getElementById('music-btn');
+    const slider = document.getElementById('volume-slider');
 
     function toggleMusic() {
       if (music.paused) {
         music.muted = false;
         music.play();
-        button.textContent = "pause";
+        button.textContent = "Pause Music";
       } else {
         music.pause();
-        button.textContent = "click me";
+        button.textContent = "Play Music";
       }
     }
+
+    // Adjust volume in real time
+    slider.addEventListener('input', () => {
+      music.volume = slider.value;
+    });
   </script>
 </body>
 </html>
-
-
